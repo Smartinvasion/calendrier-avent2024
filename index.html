@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier de l'Avent de Noël</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #b22222;
+            padding: 20px;
+            color: white;
+        }
+        h1 {
+            margin: 0;
+            font-size: 3em;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 10px;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+        .day {
+            background-color: #ff0000;
+            border: 2px solid #b22222;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.5em;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .day.locked {
+            background-color: #d3d3d3;
+            color: #999;
+            cursor: not-allowed;
+        }
+        .day:hover:not(.locked) {
+            background-color: #ff8080;
+        }
+        #surprise {
+            display: none;
+            margin-top: 30px;
+        }
+        #surprise h2 {
+            color: #b22222;
+        }
+        #audio-player, #video-player {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bannière avec le titre -->
+    <header>
+        <h1>Calendrier de l'Avent de Noël</h1>
+    </header>
+
+    <!-- Calendrier avec 24 jours -->
+    <div class="calendar">
+        <!-- Les 24 jours du calendrier -->
+        <div class="day" data-day="1">1</div>
+        <div class="day" data-day="2">2</div>
+        <div class="day" data-day="3">3</div>
+        <div class="day" data-day="4">4</div>
+        <div class="day" data-day="5">5</div>
+        <div class="day" data-day="6">6</div>
+        <div class="day" data-day="7">7</div>
+        <div class="day" data-day="8">8</div>
+        <div class="day" data-day="9">9</div>
+        <div class="day" data-day="10">10</div>
+        <div class="day" data-day="11">11</div>
+        <div class="day" data-day="12">12</div>
+        <div class="day" data-day="13">13</div>
+        <div class="day" data-day="14">14</div>
+        <div class="day" data-day="15">15</div>
+        <div class="day" data-day="16">16</div>
+        <div class="day" data-day="17">17</div>
+        <div class="day" data-day="18">18</div>
+        <div class="day" data-day="19">19</div>
+        <div class="day" data-day="20">20</div>
+        <div class="day" data-day="21">21</div>
+        <div class="day" data-day="22">22</div>
+        <div class="day" data-day="23">23</div>
+        <div class="day" data-day="24">24</div>
+    </div>
+
+    <!-- Section de surprise -->
+    <div id="surprise">
+        <h2 id="title">Surprise du jour !</h2>
+        <div id="audio-player"></div>
+        <div id="video-player"></div>
+    </div>
+
+    <!-- Script pour le calendrier interactif -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const currentDay = today.getDate();
+            const days = document.querySelectorAll('.day');
+            const surpriseSection = document.getElementById('surprise');
+            const title = document.getElementById('title');
+            const audioPlayer = document.getElementById('audio-player');
+            const videoPlayer = document.getElementById('video-player');
+
+            const surprises = {
+                1: {
+                    audio: 'https://tonurl/audio1.mp3',
+                    video: 'https://tonurl/video1.mp4'
+                },
+                2: {
+                    audio: 'https://tonurl/audio2.mp3',
+                    video: 'https://tonurl/video2.mp4'
+                }
+                // Ajoute les autres jours ici
+            };
+
+            days.forEach(day => {
+                const dayNumber = parseInt(day.dataset.day);
+
+                if (dayNumber > currentDay) {
+                    day.classList.add('locked');
+                }
+
+                day.addEventListener('click', function() {
+                    if (dayNumber <= currentDay && !day.classList.contains('locked')) {
+                        showSurprise(dayNumber);
+                    }
+                });
+            });
+
+            function showSurprise(day) {
+                surpriseSection.style.display = 'block';
+                title.textContent = `Surprise du jour - ${day} décembre`;
+
+                const surprise = surprises[day];
+                if (surprise) {
+                    audioPlayer.innerHTML = `
+                        <audio controls>
+                            <source src="${surprise.audio}" type="audio/mpeg">
+                            Votre navigateur ne supporte pas l'élément audio.
+                        </audio>
+                    `;
+
+                    videoPlayer.innerHTML = `
+                        <video width="560" height="315" controls>
+                            <source src="${surprise.video}" type="video/mp4">
+                            Votre navigateur ne supporte pas l'élément vidéo.
+                        </video>
+                    `;
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
 
